@@ -3,7 +3,7 @@
 playing = True
 
 # Pits to hold stones and the two players end pits
-pits = [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4]
+pits = [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
     
 
 # Game loop
