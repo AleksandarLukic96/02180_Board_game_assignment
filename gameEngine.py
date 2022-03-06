@@ -1,3 +1,12 @@
+# 02180 Introduction to Artificial Intelligence
+# Project: AI to play Mancala / Kalaha
+# Technical University of Denmark (DTU)
+# March 2022 
+# Authors:
+#   Aleksandar Lukic  s194066
+#   Hjalte Pind       s183811
+#   Jacob Hellum      s194021
+#   Søren Hinrichsen  s183807
 
 # Value to keep game going
 playing = True
