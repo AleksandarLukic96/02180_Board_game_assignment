@@ -21,7 +21,7 @@ eventCode = 0
 message = "Welcome to Mancala!\n"
 
 # Pits to hold stones and the two players end pits
-pits = [0, 4, 4, 4, 4, 4, 4, # Player 2 in index 0 to 6 
+pits = [4, 4, 4, 4, 4, 4, 0, # Player 2 in index 0 to 6 
         4, 4, 4, 4, 4, 4, 0] # Player 1 in index 7 to 13
 # o---------------------------------------o
 # |    | 12 | 11 | 10 |  9 |  8 |  7 |    |
@@ -95,6 +95,7 @@ while(playing):
     if userInput == "q": 
         print("Quitting the game... \nThanks for playing!")
         playing = False
+        break
     # Valid inputs
     elif userInput in validUserInputs: 
         chosenPit = 0
@@ -130,18 +131,37 @@ while(playing):
     
     # Check if chosen pit is empty
     if int(pits[chosenPit]) > 0:
+            chosenPitPile = pits[chosenPit]
             pits[chosenPit] = 0
             message = ""
             player = not(player)
     else:
        message = "The chosen pit was empty! Try again..." 
     
+    # Move stones from chosen pit to following pits
+    followingPit = chosenPit + 1
+    while(int(chosenPitPile) > 0):
+        # Skip oponents endpit 
+        if(player == True and int(followingPit) == 13):
+            followingPit = 0
+        if(player == False and int(followingPit) == 6):
+            followingPit = 7
+        pits[followingPit] = int(pits[followingPit]) + 1
+        chosenPitPile = int(chosenPitPile) - 1
+        followingPit = int(followingPit) + 1
+        if(int(followingPit) > 13):
+            followingPit = 0
+    
     # Winning condition:
-    if ((int(pits[0]) == 0) and (int(pits[1]) == 0) and (int(pits[2]) == 0) and (int(pits[3]) == 0) and (int(pits[4]) == 0) and (int(pits[5]) == 0)):
-        print("Player 2 Wins!")
-        playing = False
-    elif ((int(pits[7]) == 0) and (int(pits[8]) == 0) and (int(pits[9]) == 0) and (int(pits[10]) == 0) and (int(pits[11]) == 0) and (int(pits[12]) == 0)):
-        print("Player 1 Wins!")
-        playing = False
+    if ((int(pits[0]) == 0) and (int(pits[1]) == 0) and (int(pits[2]) == 0) and (int(pits[3]) == 0) and (int(pits[4]) == 0) and (int(pits[5]) == 0)) or ((int(pits[7]) == 0) and (int(pits[8]) == 0) and (int(pits[9]) == 0) and (int(pits[10]) == 0) and (int(pits[11]) == 0) and (int(pits[12]) == 0)):
+        if(pits[13] > pits[6]):
+            print("Player 1 Wins!")
+            playing = False
+        elif(pits[13] < pits[6]):
+            print("Player 2 Wins!")
+            playing = False
+        else:
+            print("It's a tie!")
+            playing = False
 
     
