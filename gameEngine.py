@@ -17,8 +17,8 @@ player = True
 # EventHandler
 eventCode = 0
 
-# Welcome message - initialised message
-message = "Welcome to Mancala!\n"
+# Welcome message - initialised message from https://ascii.co.uk/art/mancala
+message = "                                 _       \n                                | |      \n _ __ ___   __ _ _ __   ___ __ _| | __ _ \n| '_ ` _ \ / _` | '_ \ / __/ _` | |/ _` |\n| | | | | | (_| | | | | (_| (_| | | (_| |\n|_| |_| |_|\__,_|_| |_|\___\__,_|_|\__,_|\n"
 
 # Pits to hold stones and the two players end pits
 pits = [4, 4, 4, 4, 4, 4, 0, # Player 2 in index 0 to 6 
@@ -164,4 +164,4 @@ while(playing):
             print("It's a tie!")
             playing = False
 
-    
+
