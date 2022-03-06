@@ -35,8 +35,16 @@ validUserInputs = ['a', 'b', 'c', 'd', 'e', 'f']
 # Game loop
 while(playing):
     
-    print(message)
+    # Winning condition:
+    if ((int(pits[0]) == 0) and (int(pits[1]) == 0) and (int(pits[2]) == 0) and (int(pits[3]) == 0) and (int(pits[4]) == 0) and (int(pits[5]) == 0)):
+        print("Player 2 Wins!")
+        playing = False
+    elif ((int(pits[7]) == 0) and (int(pits[8]) == 0) and (int(pits[9]) == 0) and (int(pits[10]) == 0) and (int(pits[11]) == 0) and (int(pits[12]) == 0)):
+        print("Player 1 Wins!")
+        playing = False
     
+    # Print potential error message
+    print(message)
     if player:
         print("Player 1: ")
     else:
@@ -56,7 +64,7 @@ while(playing):
     # Print top border of board
     print("o---------------------------------------o")
         
-    # Print Player 1:  
+    # Print Player 1 side:  
     playerOneSide = "|    | "
     for i in range(12, 6, -1):
         playerOneSide = playerOneSide + str(pits[i]) + " | "
@@ -66,7 +74,7 @@ while(playing):
     # Print player pits and seperation between sides
     print("| " + pits[13] + " |----|----|----|----|----|----| " + pits[6] + " |")
     
-    # Print Player 2:  
+    # Print Player 2 side:  
     playerTwoSide = "|    | "
     for i in range(0, 6):
         playerTwoSide = playerTwoSide + str(pits[i]) + " | "
@@ -92,4 +100,5 @@ while(playing):
     else: 
         message = "Invalid input, try again..."
     
+
     
