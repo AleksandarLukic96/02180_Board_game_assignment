@@ -14,12 +14,15 @@ playing = True
 # Player 1 = True, Player 2 = False
 player = True
 
-# Welcome message
+# EventHandler
+eventCode = 0
+
+# Welcome message - initialised message
 message = "Welcome to Mancala!\n"
 
 # Pits to hold stones and the two players end pits
-pits = [0, 1, 2, 3, 4, 5, 6, # Player 2 in index 0 to 6 
-        7, 8, 9, 10, 11, 12, 13] # Player 1 in index 7 to 13
+pits = [0, 4, 4, 4, 4, 4, 4, # Player 2 in index 0 to 6 
+        4, 4, 4, 4, 4, 4, 0] # Player 1 in index 7 to 13
 # o---------------------------------------o
 # |    | 12 | 11 | 10 |  9 |  8 |  7 |    |
 # | 13 |----|----|----|----|----|----|  6 |
@@ -35,20 +38,12 @@ validUserInputs = ['a', 'b', 'c', 'd', 'e', 'f']
 # Game loop
 while(playing):
     
-    # Winning condition:
-    if ((int(pits[0]) == 0) and (int(pits[1]) == 0) and (int(pits[2]) == 0) and (int(pits[3]) == 0) and (int(pits[4]) == 0) and (int(pits[5]) == 0)):
-        print("Player 2 Wins!")
-        playing = False
-    elif ((int(pits[7]) == 0) and (int(pits[8]) == 0) and (int(pits[9]) == 0) and (int(pits[10]) == 0) and (int(pits[11]) == 0) and (int(pits[12]) == 0)):
-        print("Player 1 Wins!")
-        playing = False
-    
     # Print potential error message
     print(message)
     if player:
-        print("Player 1: ")
+        print("Player 1:\n")
     else:
-        print("Player 2: ")
+        print("Player 2:\n")
     
     
     # loop to format number in pits
@@ -60,6 +55,10 @@ while(playing):
         else:
             pits[i] = str(pits[i])
         i = i + 1
+    
+    # Print instructions for Player 1:
+    if(player == True):
+        print("        a    b    c    d    e    f")
     
     # Print top border of board
     print("o---------------------------------------o")
@@ -84,6 +83,10 @@ while(playing):
     # Print bottom border of board
     print("o---------------------------------------o")
     
+    # Print instructions for Player 2:
+    if(player == False):
+        print("        a    b    c    d    e    f")
+    
     # Read user input from terminal
     userInput = input()
     
@@ -94,11 +97,51 @@ while(playing):
         playing = False
     # Valid inputs
     elif userInput in validUserInputs: 
-        message = ""
-        player = not(player)
+        chosenPit = 0
+        if(player == True):
+            if userInput == 'f':
+                chosenPit = 7
+            elif userInput == 'e':
+                chosenPit = 8
+            elif userInput == 'd':
+                chosenPit = 9
+            elif userInput == 'c':
+                chosenPit = 10
+            elif userInput == 'b':
+                chosenPit = 11
+            elif userInput == 'a':
+                chosenPit = 12
+        elif(player == False):
+            if userInput == 'a':
+                chosenPit = 0
+            elif userInput == 'b':
+                chosenPit = 1
+            elif userInput == 'c':
+                chosenPit = 2
+            elif userInput == 'd':
+                chosenPit = 3
+            elif userInput == 'e':
+                chosenPit = 4
+            elif userInput == 'f':
+                chosenPit = 5        
     # Invalid inputs
     else: 
         message = "Invalid input, try again..."
     
+    # Check if chosen pit is empty
+    if int(pits[chosenPit]) > 0:
+            pits[chosenPit] = 0
+            message = ""
+            player = not(player)
+    else:
+       message = "The chosen pit was empty! Try again..." 
+    
+    # Winning condition:
+    if ((int(pits[0]) == 0) and (int(pits[1]) == 0) and (int(pits[2]) == 0) and (int(pits[3]) == 0) and (int(pits[4]) == 0) and (int(pits[5]) == 0)):
+        print("Player 2 Wins!")
+        playing = False
+    elif ((int(pits[7]) == 0) and (int(pits[8]) == 0) and (int(pits[9]) == 0) and (int(pits[10]) == 0) and (int(pits[11]) == 0) and (int(pits[12]) == 0)):
+        print("Player 1 Wins!")
+        playing = False
 
     
