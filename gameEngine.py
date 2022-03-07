@@ -21,8 +21,8 @@ eventCode = 0
 message = "                                 _       \n                                | |      \n _ __ ___   __ _ _ __   ___ __ _| | __ _ \n| '_ ` _ \ / _` | '_ \ / __/ _` | |/ _` |\n| | | | | | (_| | | | | (_| (_| | | (_| |\n|_| |_| |_|\__,_|_| |_|\___\__,_|_|\__,_|\n"
 
 # Pits to hold stones and the two players end pits
-pits = [4, 4, 4, 4, 4, 4, 0, # Player 2 in index 0 to 6 
-        4, 4, 4, 4, 4, 4, 0] # Player 1 in index 7 to 13
+pits = [4, 4, 4, 4, 4, 1, 0, # Player 2 in index 0 to 6 
+        4, 4, 4, 4, 4, 1, 0] # Player 1 in index 7 to 13
 # o---------------------------------------o
 # |    | 12 | 11 | 10 |  9 |  8 |  7 |    |
 # | 13 |----|----|----|----|----|----|  6 |
@@ -134,7 +134,7 @@ while(playing):
             chosenPitPile = pits[chosenPit]
             pits[chosenPit] = 0
             message = ""
-            player = not(player)
+            #player = not(player)
     else:
        message = "The chosen pit was empty! Try again..." 
     
@@ -142,9 +142,9 @@ while(playing):
     followingPit = chosenPit + 1
     while(int(chosenPitPile) > 0):
         # Skip oponents endpit 
-        if(player == True and int(followingPit) == 13):
+        if(player == True and int(followingPit) == 6):
             followingPit = 0
-        if(player == False and int(followingPit) == 6):
+        if(player == False and int(followingPit) == 13):
             followingPit = 7
         pits[followingPit] = int(pits[followingPit]) + 1
         chosenPitPile = int(chosenPitPile) - 1
@@ -152,6 +152,14 @@ while(playing):
         if(int(followingPit) > 13):
             followingPit = 0
     
+    # If last stone ends on the players end pit, that player gets another turn
+    if(player == True and chosenPitPile == 0 and followingPit == 13):
+        message = "Last stone ended in Player 1's end pit!"
+    elif(player == False and chosenPitPile == 0 and followingPit == 6):
+        message = "Last stone ended in Player 2's end pit!"
+    else:
+        player = not(player)
+        
     # Winning condition:
     if ((int(pits[0]) == 0) and (int(pits[1]) == 0) and (int(pits[2]) == 0) and (int(pits[3]) == 0) and (int(pits[4]) == 0) and (int(pits[5]) == 0)) or ((int(pits[7]) == 0) and (int(pits[8]) == 0) and (int(pits[9]) == 0) and (int(pits[10]) == 0) and (int(pits[11]) == 0) and (int(pits[12]) == 0)):
         if(pits[13] > pits[6]):
