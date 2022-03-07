@@ -141,23 +141,28 @@ while(playing):
     # Move stones from chosen pit to following pits
     followingPit = chosenPit + 1
     while(int(chosenPitPile) > 0):
-        # Skip oponents endpit 
-        if(player == True and int(followingPit) == 6):
-            followingPit = 0
-        if(player == False and int(followingPit) == 13):
-            followingPit = 7
-        pits[followingPit] = int(pits[followingPit]) + 1
-        chosenPitPile = int(chosenPitPile) - 1
-        followingPit = int(followingPit) + 1
+        # Check if pit is out of bounds
         if(int(followingPit) > 13):
             followingPit = 0
+        # Skip oponents endpit 
+        if(player == True and int(followingPit) == 6):
+            followingPit = 7
+        if(player == False and int(followingPit) == 13):
+            followingPit = 0
+        # Update pits and moving pit pile
+        pits[followingPit] = int(pits[followingPit]) + 1
+        chosenPitPile = int(chosenPitPile) - 1
+        # Stops incrementation when pile size is 0
+        if(chosenPitPile > 0):
+           followingPit = int(followingPit) + 1
     
     # If last stone ends on the players end pit, that player gets another turn
-    if(player == True and chosenPitPile == 0 and followingPit == 13):
+    if(player == True and followingPit == 13):
         message = "Last stone ended in Player 1's end pit!"
-    elif(player == False and chosenPitPile == 0 and followingPit == 6):
+    elif(player == False and followingPit == 6):
         message = "Last stone ended in Player 2's end pit!"
     else:
+        # Changes player
         player = not(player)
         
     # Winning condition:
