@@ -127,6 +127,7 @@ while playing:
     else:
         # Changes player
         player1 = not player1
+        message = ""
 
     # Total stones left on each side
     player1StonesLeft = sum(pits[7:13])
