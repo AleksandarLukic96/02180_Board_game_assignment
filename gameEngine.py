@@ -16,17 +16,20 @@ from move import move
 playing = True
 
 # Player 1 = True, Player 2 = False
-player1 = True
+player1Turn = True
 
 # EventHandler
 eventCode = 0
 
-def startMenu():
-    print("Player 2 plays as:\n 1: Human\n 2: Dumb AI")
+def startMenu(player):
+    # Menu for asking user for integer. If something else than an integer in the valid options is given, returns -1,
+    # else returns the integer
+    valid_ints = [1, 2]
+    print("Player {} plays as:\n 1: Human\n 2: Dumb AI".format(player))
     startChoice = input()
     try:
         int(startChoice)
-        if int(startChoice) not in [1, 2]:
+        if int(startChoice) not in valid_ints:
             print("Not a valid input!")
             return -1
         return int(startChoice)
@@ -34,22 +37,33 @@ def startMenu():
         print("Not a valid input!")
         return -1
 
-startChoice = startMenu()
+# Asks if players are humans or Ai, and which AI
+startChoice = startMenu(1)
 while startChoice == -1:
-    startChoice = startMenu()
+    startChoice = startMenu(1)
+
+if startChoice == 1:
+    player1 = 'Human'
+elif startChoice == 2:
+    player1 = 'AI'
+    AI1Move = dumbMove
+
+startChoice = startMenu(2)
+while startChoice == -1:
+    startChoice = startMenu(2)
 
 if startChoice == 1:
     player2 = 'Human'
 elif startChoice == 2:
     player2 = 'AI'
-    AIMove = dumbMove
+    AI2Move = dumbMove
 
 # Welcome message - initialised message from https://ascii.co.uk/art/mancala
 message = "                                 _       \n                                | |      \n _ __ ___   __ _ _ __   ___ __ _| | __ _ \n| '_ ` _ \ / _` | '_ \ / __/ _` | |/ _` |\n| | | | | | (_| | | | | (_| (_| | | (_| |\n|_| |_| |_|\__,_|_| |_|\___\__,_|_|\__,_|\n"
 
 # Pits to hold stones and the two players end pits
-pits = [4, 4, 4, 4, 4, 1, 0,  # Player 2 in index 0 to 6
-        0, 0, 2, 0, 0, 0, 0]  # Player 1 in index 7 to 13
+pits = [4, 4, 4, 4, 4, 4, 0,  # Player 2 in index 0 to 6
+        4, 4, 4, 4, 4, 4, 0]  # Player 1 in index 7 to 13
 # o---------------------------------------o
 # |    | 12 | 11 | 10 |  9 |  8 |  7 |    |
 # | 13 |----|----|----|----|----|----|  6 |
@@ -67,24 +81,22 @@ while playing:
 
     # Print potential error message
     print(message)
-    if player1:
+    if player1Turn:
         print("Player 1:\n")
     else:
         print("Player 2:\n")
 
     # Print instructions for Player 1:
-    if player1:
+    if player1Turn and player1 == 'Human':
         print("        a    b    c    d    e    f")
-        drawGame.draw_game(pits)
+    drawGame.draw_game(pits)
 
     # Print instructions for Player 2:
-    else:
-        drawGame.draw_game(pits)
-        if player2 == 'Human':
-            print("        a    b    c    d    e    f")
+    if (not player1Turn) and player2 == 'Human':
+        print("        a    b    c    d    e    f")
 
     # Read user input from terminal
-    if player1 or (player2 == 'Human'):
+    if (player1Turn and player1 == 'Human') or (not player1Turn and player2 == 'Human'):
         userInput = input()
         # Handle user inputs
         # Quit game
@@ -110,23 +122,25 @@ while playing:
         else:
             message = "Invalid input, try again..."
             continue
-    else:
-        chosenPit = AIMove(pits)
+    elif (player1Turn and player1 == 'AI'):
+        chosenPit = AI1Move(pits, 1)
+    elif (not player1Turn) and player2 == 'AI':
+        chosenPit = AI2Move(pits, 2)
 
-    pits, flag = move(pits, chosenPit, 1 if player1 else 2)
+    pits, flag = move(pits, chosenPit, 1 if player1Turn else 2)
 
     if flag == -1:
         message = "The chosen pit was empty! Try again..."
         continue
 
     # If last stone ends on the players end pit, that player gets another turn
-    if player1 and flag == 1:
+    if player1Turn and flag == 1:
         message = "Last stone ended in Player 1's end pit!"
-    elif not player1 and flag == 1:
+    elif not player1Turn and flag == 1:
         message = "Last stone ended in Player 2's end pit!"
     else:
         # Changes player
-        player1 = not player1
+        player1Turn = not player1Turn
         message = ""
 
     # Total stones left on each side
