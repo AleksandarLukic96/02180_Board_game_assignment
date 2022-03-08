@@ -24,7 +24,7 @@ message = "                                 _       \n                          
 
 # Pits to hold stones and the two players end pits
 pits = [4, 4, 4, 4, 4, 1, 0,  # Player 2 in index 0 to 6
-        1, 0, 0, 2, 0, 1, 0]  # Player 1 in index 7 to 13
+        0, 0, 2, 0, 0, 0, 0]  # Player 1 in index 7 to 13
 # o---------------------------------------o
 # |    | 12 | 11 | 10 |  9 |  8 |  7 |    |
 # | 13 |----|----|----|----|----|----|  6 |
@@ -58,6 +58,7 @@ while playing:
         print("        a    b    c    d    e    f")
 
     # Read user input from terminal
+
     userInput = input()
 
     # Handle user inputs
@@ -68,7 +69,6 @@ while playing:
         break
     # Valid inputs
     elif userInput in validUserInputs:
-        chosenPit = 0
         if player1:
             if userInput == 'f':
                 chosenPit = 7
@@ -98,6 +98,7 @@ while playing:
     # Invalid inputs
     else:
         message = "Invalid input, try again..."
+        continue
 
     # Check if chosen pit is empty
     if pits[chosenPit] > 0:
@@ -107,42 +108,42 @@ while playing:
         # player = not(player)
     else:
         message = "The chosen pit was empty! Try again..."
+        continue
 
     # Necessary to get correct message when trying a 0 pit next to own goal
-    if message == "":
-        # Move stones from chosen pit to following pits
-        followingPit = chosenPit + 1
-        while chosenPitPile > 0:
-            # Check if pit is out of bounds
-            if followingPit > 13:
-                followingPit = 0
-            # Skip oponents endpit
-            if player1 and followingPit == 6:
-                followingPit = 7
-            if not player1 and followingPit == 13:
-                followingPit = 0
-            # Update pits and moving pit pile
-            pits[followingPit] = pits[followingPit] + 1
-            chosenPitPile = chosenPitPile - 1
-            # Stops incrementation when pile size is 0
-            if chosenPitPile > 0:
-                followingPit = followingPit + 1
 
-        # If last stone ends on the players end pit, that player gets another turn
-        if player1 and followingPit == 13:
-            message = "Last stone ended in Player 1's end pit!"
-        elif not player1 and followingPit == 6:
-            message = "Last stone ended in Player 2's end pit!"
-        else:
-            # Changes player
-            player1 = not player1
+
+    # Move stones from chosen pit to following pits
+    followingPit = chosenPit + 1
+    while chosenPitPile > 0:
+        # Check if pit is out of bounds
+        if followingPit > 13:
+            followingPit = 0
+        # Skip oponents endpit
+        if player1 and followingPit == 6:
+            followingPit = 7
+        if not player1 and followingPit == 13:
+            followingPit = 0
+        # Update pits and moving pit pile
+        pits[followingPit] = pits[followingPit] + 1
+        chosenPitPile = chosenPitPile - 1
+        # Stops incrementation when pile size is 0
+        if chosenPitPile > 0:
+            followingPit = followingPit + 1
+
+    # If last stone ends on the players end pit, that player gets another turn
+    if player1 and followingPit == 13:
+        message = "Last stone ended in Player 1's end pit!"
+    elif not player1 and followingPit == 6:
+        message = "Last stone ended in Player 2's end pit!"
+    else:
+        # Changes player
+        player1 = not player1
 
     # Total stones left on each side
     player1StonesLeft = sum(pits[7:13])
     player2StonesLeft = sum(pits[0:6])
 
-    print(f"player1StonesLeft = {player1StonesLeft}")
-    print(f"player2StonesLeft = {player2StonesLeft}")
 
     # Winning condition:
     if player1StonesLeft == 0 or player2StonesLeft == 0:
