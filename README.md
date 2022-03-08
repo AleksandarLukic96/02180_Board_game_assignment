@@ -46,4 +46,5 @@ https://ascii.co.uk/art/mancala
 
 Playable online game: 
 https://www.mathplayground.com/mancala.html
- 
+
+Mancala rules: https://www.wikihow.com/Play-Kalaha 
