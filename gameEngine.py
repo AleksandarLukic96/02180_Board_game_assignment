@@ -10,6 +10,7 @@
 
 import drawGame
 import rules
+from move import move
 
 # Value to keep game going
 playing = True
@@ -70,44 +71,27 @@ while playing:
         break
     # Valid inputs
     elif userInput in validUserInputs:
-        if player1:
-            if userInput == 'f':
-                chosenPit = 7
-            elif userInput == 'e':
-                chosenPit = 8
-            elif userInput == 'd':
-                chosenPit = 9
-            elif userInput == 'c':
-                chosenPit = 10
-            elif userInput == 'b':
-                chosenPit = 11
-            elif userInput == 'a':
-                chosenPit = 12
-        elif not player1:
-            if userInput == 'a':
-                chosenPit = 0
-            elif userInput == 'b':
-                chosenPit = 1
-            elif userInput == 'c':
-                chosenPit = 2
-            elif userInput == 'd':
-                chosenPit = 3
-            elif userInput == 'e':
-                chosenPit = 4
-            elif userInput == 'f':
-                chosenPit = 5
+        if userInput == 'a':
+            chosenPit = 0
+        elif userInput == 'b':
+            chosenPit = 1
+        elif userInput == 'c':
+            chosenPit = 2
+        elif userInput == 'd':
+            chosenPit = 3
+        elif userInput == 'e':
+            chosenPit = 4
+        elif userInput == 'f':
+            chosenPit = 5
     # Invalid inputs
     else:
         message = "Invalid input, try again..."
         continue
 
+    pits, flag = move(pits, chosenPit, 1 if player1 else 2)
     # Check if chosen pit is empty
-    if pits[chosenPit] > 0:
-        chosenPitPile = pits[chosenPit]
-        pits[chosenPit] = 0
-        message = ""
-        # player = not(player)
-    else:
+
+    if flag == -1:
         message = "The chosen pit was empty! Try again..."
         continue
 
@@ -137,11 +121,10 @@ while playing:
         pits = rules.capture_opposite(lastPit, pits)
 
     # If last stone ends on the players end pit, that player gets another turn
-    if player1 and lastPit == 13:
+    if player1 and flag == 1:
         message = "Last stone ended in Player 1's end pit!"
-    elif not player1 and lastPit == 6:
+    elif not player1 and flag == 1:
         message = "Last stone ended in Player 2's end pit!"
-
     else:
         # Changes player
         player1 = not player1
@@ -150,6 +133,7 @@ while playing:
     player1StonesLeft = sum(pits[7:13])
     player2StonesLeft = sum(pits[0:6])
 
+
     # Winning condition:
     if player1StonesLeft == 0 or player2StonesLeft == 0:
         # Moving the final stones
@@ -157,11 +141,7 @@ while playing:
         pits[6] = pits[6] + player2StonesLeft
         pits[7:13] = [0, 0, 0, 0, 0, 0]
         pits[13] = pits[13] + player1StonesLeft
-        # o---------------------------------------o
-        # |    | 12 | 11 | 10 |  9 |  8 |  7 |    |
-        # | 13 |----|----|----|----|----|----|  6 |
-        # |    |  0 |  1 |  2 |  3 |  4 |  5 |    |
-        # o---------------------------------------o
+
         drawGame.draw_game(pits)
 
         if (pits[13] > pits[6]):
