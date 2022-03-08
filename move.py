@@ -1,3 +1,6 @@
+import rules
+
+
 def move(pits, chosenPit, player):
     # Function for making a move on board defined by pits.
     # Which move is defined by chosenPit, an interger in the range
@@ -8,9 +11,9 @@ def move(pits, chosenPit, player):
     # is chosen, 0 if move is done and it's the next players turn, and 1 if the same player gets another turn, because
     # the last marble ended in their home pile
     if player == 1:
-        chosenPit = chosenPit + (12-2*chosenPit)
+        chosenPit = chosenPit + (12 - 2 * chosenPit)
 
-    if pits[chosenPit] <= 1:
+    if pits[chosenPit] < 1:
         return pits, -1
 
     chosenPitPile = pits[chosenPit]
@@ -29,6 +32,11 @@ def move(pits, chosenPit, player):
         pits[followingPit] = pits[followingPit] + 1
         chosenPitPile -= 1
 
-    if (player == 1 and followingPit == 13) or (player == 2 and followingPit == 6):
+    # Check on last stone put in pit
+    lastPit = followingPit
+    if rules.land_in_empty(lastPit, pits) and rules.land_on_own_side(True if player == 1 else False, lastPit):
+        pits = rules.capture_opposite(lastPit, pits)
+
+    if (player == 1 and lastPit == 13) or (player == 2 and lastPit == 6):
         return pits, 1
     return pits, 0

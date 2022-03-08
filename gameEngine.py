@@ -89,36 +89,10 @@ while playing:
         continue
 
     pits, flag = move(pits, chosenPit, 1 if player1 else 2)
-    # Check if chosen pit is empty
 
     if flag == -1:
         message = "The chosen pit was empty! Try again..."
         continue
-
-    # Necessary to get correct message when trying a 0 pit next to own goal
-
-    # Move stones from chosen pit to following pits
-    nextPit = chosenPit + 1
-
-    while chosenPitPile > 0:
-        # Check if pit is out of bounds
-        if nextPit > 13:
-            nextPit = 0
-        # Skip oponents endpit
-        if player1 and nextPit == 6:
-            nextPit = 7
-        if not player1 and nextPit == 13:
-            nextPit = 0
-        # Update pits and moving pit pile
-        pits[nextPit] = pits[nextPit] + 1
-        chosenPitPile = chosenPitPile - 1
-        # Stops incrementation when pile size is 0
-        if chosenPitPile > 0:
-            nextPit = nextPit + 1
-
-    lastPit = nextPit
-    if rules.land_in_empty(lastPit, pits) and rules.land_on_own_side(player1, lastPit):
-        pits = rules.capture_opposite(lastPit, pits)
 
     # If last stone ends on the players end pit, that player gets another turn
     if player1 and flag == 1:
