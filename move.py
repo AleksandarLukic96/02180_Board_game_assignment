@@ -8,7 +8,7 @@ def move(pits, chosenPit, player):
     # is chosen, 0 if move is done and it's the next players turn, and 1 if the same player gets another turn, because
     # the last marble ended in their home pile
     if player == 1:
-        chosenPit += 7
+        chosenPit = chosenPit + (12-2*chosenPit)
 
     if pits[chosenPit] <= 1:
         return pits, -1
