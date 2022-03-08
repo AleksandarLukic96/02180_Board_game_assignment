@@ -9,6 +9,7 @@
 #   Søren Hinrichsen  s183807
 
 import drawGame
+import rules
 
 # Value to keep game going
 playing = True
@@ -112,30 +113,35 @@ while playing:
 
     # Necessary to get correct message when trying a 0 pit next to own goal
 
-
     # Move stones from chosen pit to following pits
-    followingPit = chosenPit + 1
+    nextPit = chosenPit + 1
+
     while chosenPitPile > 0:
         # Check if pit is out of bounds
-        if followingPit > 13:
-            followingPit = 0
+        if nextPit > 13:
+            nextPit = 0
         # Skip oponents endpit
-        if player1 and followingPit == 6:
-            followingPit = 7
-        if not player1 and followingPit == 13:
-            followingPit = 0
+        if player1 and nextPit == 6:
+            nextPit = 7
+        if not player1 and nextPit == 13:
+            nextPit = 0
         # Update pits and moving pit pile
-        pits[followingPit] = pits[followingPit] + 1
+        pits[nextPit] = pits[nextPit] + 1
         chosenPitPile = chosenPitPile - 1
         # Stops incrementation when pile size is 0
         if chosenPitPile > 0:
-            followingPit = followingPit + 1
+            nextPit = nextPit + 1
+
+    lastPit = nextPit
+    if rules.land_in_empty(lastPit, pits) and rules.land_on_own_side(player1, lastPit):
+        pits = rules.capture_opposite(lastPit, pits)
 
     # If last stone ends on the players end pit, that player gets another turn
-    if player1 and followingPit == 13:
+    if player1 and lastPit == 13:
         message = "Last stone ended in Player 1's end pit!"
-    elif not player1 and followingPit == 6:
+    elif not player1 and lastPit == 6:
         message = "Last stone ended in Player 2's end pit!"
+
     else:
         # Changes player
         player1 = not player1
@@ -144,7 +150,6 @@ while playing:
     player1StonesLeft = sum(pits[7:13])
     player2StonesLeft = sum(pits[0:6])
 
-
     # Winning condition:
     if player1StonesLeft == 0 or player2StonesLeft == 0:
         # Moving the final stones
@@ -152,7 +157,11 @@ while playing:
         pits[6] = pits[6] + player2StonesLeft
         pits[7:13] = [0, 0, 0, 0, 0, 0]
         pits[13] = pits[13] + player1StonesLeft
-
+        # o---------------------------------------o
+        # |    | 12 | 11 | 10 |  9 |  8 |  7 |    |
+        # | 13 |----|----|----|----|----|----|  6 |
+        # |    |  0 |  1 |  2 |  3 |  4 |  5 |    |
+        # o---------------------------------------o
         drawGame.draw_game(pits)
 
         if (pits[13] > pits[6]):
