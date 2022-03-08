@@ -9,7 +9,7 @@
 #   Søren Hinrichsen  s183807
 
 import drawGame
-import rules
+from dumbAI import nextMove as dumbMove
 from move import move
 
 # Value to keep game going
@@ -20,6 +20,29 @@ player1 = True
 
 # EventHandler
 eventCode = 0
+
+def startMenu():
+    print("Player 2 plays as:\n 1: Human\n 2: Dumb AI")
+    startChoice = input()
+    try:
+        int(startChoice)
+        if int(startChoice) not in [1, 2]:
+            print("Not a valid input!")
+            return -1
+        return int(startChoice)
+    except:
+        print("Not a valid input!")
+        return -1
+
+startChoice = startMenu()
+while startChoice == -1:
+    startChoice = startMenu()
+
+if startChoice == 1:
+    player2 = 'Human'
+elif startChoice == 2:
+    player2 = 'AI'
+    AIMove = dumbMove
 
 # Welcome message - initialised message from https://ascii.co.uk/art/mancala
 message = "                                 _       \n                                | |      \n _ __ ___   __ _ _ __   ___ __ _| | __ _ \n| '_ ` _ \ / _` | '_ \ / __/ _` | |/ _` |\n| | | | | | (_| | | | | (_| (_| | | (_| |\n|_| |_| |_|\__,_|_| |_|\___\__,_|_|\__,_|\n"
@@ -57,36 +80,38 @@ while playing:
     # Print instructions for Player 2:
     else:
         drawGame.draw_game(pits)
-        print("        a    b    c    d    e    f")
+        if player2 == 'Human':
+            print("        a    b    c    d    e    f")
 
     # Read user input from terminal
-
-    userInput = input()
-
-    # Handle user inputs
-    # Quit game
-    if userInput == "q":
-        print("Quitting the game... \nThanks for playing!")
-        playing = False
-        break
-    # Valid inputs
-    elif userInput in validUserInputs:
-        if userInput == 'a':
-            chosenPit = 0
-        elif userInput == 'b':
-            chosenPit = 1
-        elif userInput == 'c':
-            chosenPit = 2
-        elif userInput == 'd':
-            chosenPit = 3
-        elif userInput == 'e':
-            chosenPit = 4
-        elif userInput == 'f':
-            chosenPit = 5
-    # Invalid inputs
+    if player1 or (player2 == 'Human'):
+        userInput = input()
+        # Handle user inputs
+        # Quit game
+        if userInput == "q":
+            print("Quitting the game... \nThanks for playing!")
+            playing = False
+            break
+        # Valid inputs
+        elif userInput in validUserInputs:
+            if userInput == 'a':
+                chosenPit = 0
+            elif userInput == 'b':
+                chosenPit = 1
+            elif userInput == 'c':
+                chosenPit = 2
+            elif userInput == 'd':
+                chosenPit = 3
+            elif userInput == 'e':
+                chosenPit = 4
+            elif userInput == 'f':
+                chosenPit = 5
+        # Invalid inputs
+        else:
+            message = "Invalid input, try again..."
+            continue
     else:
-        message = "Invalid input, try again..."
-        continue
+        chosenPit = AIMove(pits)
 
     pits, flag = move(pits, chosenPit, 1 if player1 else 2)
 
