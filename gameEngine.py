@@ -9,6 +9,7 @@
 #   Søren Hinrichsen  s183807
 
 import drawGame
+from move import move
 
 # Value to keep game going
 playing = True
@@ -69,72 +70,34 @@ while playing:
         break
     # Valid inputs
     elif userInput in validUserInputs:
-        if player1:
-            if userInput == 'f':
-                chosenPit = 7
-            elif userInput == 'e':
-                chosenPit = 8
-            elif userInput == 'd':
-                chosenPit = 9
-            elif userInput == 'c':
-                chosenPit = 10
-            elif userInput == 'b':
-                chosenPit = 11
-            elif userInput == 'a':
-                chosenPit = 12
-        elif not player1:
-            if userInput == 'a':
-                chosenPit = 0
-            elif userInput == 'b':
-                chosenPit = 1
-            elif userInput == 'c':
-                chosenPit = 2
-            elif userInput == 'd':
-                chosenPit = 3
-            elif userInput == 'e':
-                chosenPit = 4
-            elif userInput == 'f':
-                chosenPit = 5
+        if userInput == 'a':
+            chosenPit = 0
+        elif userInput == 'b':
+            chosenPit = 1
+        elif userInput == 'c':
+            chosenPit = 2
+        elif userInput == 'd':
+            chosenPit = 3
+        elif userInput == 'e':
+            chosenPit = 4
+        elif userInput == 'f':
+            chosenPit = 5
     # Invalid inputs
     else:
         message = "Invalid input, try again..."
         continue
 
+    pits, flag = move(pits, chosenPit, 1 if player1 else 2)
     # Check if chosen pit is empty
-    if pits[chosenPit] > 0:
-        chosenPitPile = pits[chosenPit]
-        pits[chosenPit] = 0
-        message = ""
-        # player = not(player)
-    else:
+
+    if flag == -1:
         message = "The chosen pit was empty! Try again..."
         continue
 
-    # Necessary to get correct message when trying a 0 pit next to own goal
-
-
-    # Move stones from chosen pit to following pits
-    followingPit = chosenPit + 1
-    while chosenPitPile > 0:
-        # Check if pit is out of bounds
-        if followingPit > 13:
-            followingPit = 0
-        # Skip oponents endpit
-        if player1 and followingPit == 6:
-            followingPit = 7
-        if not player1 and followingPit == 13:
-            followingPit = 0
-        # Update pits and moving pit pile
-        pits[followingPit] = pits[followingPit] + 1
-        chosenPitPile = chosenPitPile - 1
-        # Stops incrementation when pile size is 0
-        if chosenPitPile > 0:
-            followingPit = followingPit + 1
-
     # If last stone ends on the players end pit, that player gets another turn
-    if player1 and followingPit == 13:
+    if player1 and flag == 1:
         message = "Last stone ended in Player 1's end pit!"
-    elif not player1 and followingPit == 6:
+    elif not player1 and flag == 1:
         message = "Last stone ended in Player 2's end pit!"
     else:
         # Changes player
