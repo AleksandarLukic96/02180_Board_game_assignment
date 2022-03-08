@@ -34,7 +34,7 @@ Assignment 1 : Board game
 
 4. While playing the game board is printed in the terminal showing all the pits and mancalas. Since each player can only pick up stones from their own side, the player can see the letters _a_, _b_, _c_, _d_, _e_ and _f_ either right above or underneath their pits.
 <!-- Screenshot from cmd-prompt-->
-![](https://github.com/AleksandarLukic96/02180_Board_game_assignment/Images/MancalaTerminal1.JPG)
+![](https://github.com/AleksandarLukic96/02180_Board_game_assignment/blob/main/Images/MancalaTerminal1.JPG)
 
 5. When the player wants to choose a pit, they write in the terminal the coorosponding letter. 
 
