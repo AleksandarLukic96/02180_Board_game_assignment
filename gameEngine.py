@@ -12,6 +12,7 @@ import drawGame
 from dumbAI import nextMove as dumbMove
 from move import move
 from MINIMAXAI import minimaxMove
+from MINIMAX_ALPHABETA import alphabetaMove
 import functools
 
 # Value to keep game going
@@ -26,8 +27,8 @@ eventCode = 0
 def startMenu(player):
     # Menu for asking user for integer. If something else than an integer in the valid options is given, returns -1,
     # else returns the integer
-    valid_ints = [1, 2, 3]
-    print("Player {} plays as:\n 1: Human\n 2: Dumb AI\n 3: Minimax".format(player))
+    valid_ints = [1, 2, 3, 4]
+    print("Player {} plays as:\n 1: Human\n 2: Dumb AI\n 3: Minimax\n 4: Minimax with alpha-beta pruning".format(player))
     startChoice = input()
     try:
         int(startChoice)
@@ -54,6 +55,11 @@ elif startChoice == 3:
     print("Maximum search depth?")
     d = int(input())
     AI1Move = functools.partial(minimaxMove, d)
+elif startChoice == 4:
+    player1 = 'AI'
+    print("Maximum search depth?")
+    d = int(input())
+    AI1Move = functools.partial(alphabetaMove, d)
 
 startChoice = startMenu(2)
 while startChoice == -1:
@@ -69,6 +75,11 @@ elif startChoice == 3:
     print("Maximum search depth?")
     d = int(input())
     AI2Move = functools.partial(minimaxMove, d)
+elif startChoice == 4:
+    player2 = 'AI'
+    print("Maximum search depth?")
+    d = int(input())
+    AI2Move = functools.partial(alphabetaMove, d)
 
 # Welcome message - initialised message from https://ascii.co.uk/art/mancala
 message = "                                 _       \n                                | |      \n _ __ ___   __ _ _ __   ___ __ _| | __ _ \n| '_ ` _ \ / _` | '_ \ / __/ _` | |/ _` |\n| | | | | | (_| | | | | (_| (_| | | (_| |\n|_| |_| |_|\__,_|_| |_|\___\__,_|_|\__,_|\n"
