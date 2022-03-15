@@ -82,12 +82,10 @@ elif startChoice == 2:
     AI2Move = dumbMove
 elif startChoice == 3:
     player2 = 'AI'
-    print("Maximum search depth?")
     d2 = get_depth()
     AI2Move = functools.partial(minimaxMove, d2)
 elif startChoice == 4:
     player2 = 'AI'
-    print("Maximum search depth?")
     d2 = get_depth()
     AI2Move = functools.partial(alphabetaMove, d2)
 
