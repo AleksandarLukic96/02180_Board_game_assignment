@@ -11,6 +11,7 @@
 import drawGame
 from dumbAI import nextMove as dumbMove
 from move import move
+from MINIMAXAI import minimaxMove
 
 # Value to keep game going
 playing = True
@@ -24,8 +25,8 @@ eventCode = 0
 def startMenu(player):
     # Menu for asking user for integer. If something else than an integer in the valid options is given, returns -1,
     # else returns the integer
-    valid_ints = [1, 2]
-    print("Player {} plays as:\n 1: Human\n 2: Dumb AI".format(player))
+    valid_ints = [1, 2, 3]
+    print("Player {} plays as:\n 1: Human\n 2: Dumb AI\n 3: Minimax".format(player))
     startChoice = input()
     try:
         int(startChoice)
@@ -47,6 +48,9 @@ if startChoice == 1:
 elif startChoice == 2:
     player1 = 'AI'
     AI1Move = dumbMove
+elif startChoice == 3:
+    player1 = 'AI'
+    AI1Move = minimaxMove
 
 startChoice = startMenu(2)
 while startChoice == -1:
@@ -57,6 +61,9 @@ if startChoice == 1:
 elif startChoice == 2:
     player2 = 'AI'
     AI2Move = dumbMove
+elif startChoice == 3:
+    player2 = 'AI'
+    AI2Move = minimaxMove
 
 # Welcome message - initialised message from https://ascii.co.uk/art/mancala
 message = "                                 _       \n                                | |      \n _ __ ___   __ _ _ __   ___ __ _| | __ _ \n| '_ ` _ \ / _` | '_ \ / __/ _` | |/ _` |\n| | | | | | (_| | | | | (_| (_| | | (_| |\n|_| |_| |_|\__,_|_| |_|\___\__,_|_|\__,_|\n"
@@ -150,11 +157,6 @@ while playing:
 
     # Winning condition:
     if player1StonesLeft == 0 or player2StonesLeft == 0:
-        # Moving the final stones
-        pits[0:6] = [0, 0, 0, 0, 0, 0]
-        pits[6] = pits[6] + player2StonesLeft
-        pits[7:13] = [0, 0, 0, 0, 0, 0]
-        pits[13] = pits[13] + player1StonesLeft
 
         drawGame.draw_game(pits)
 

@@ -37,6 +37,20 @@ def move(pits, chosenPit, player):
     if rules.land_in_empty(lastPit, pits) and rules.land_on_own_side(True if player == 1 else False, lastPit):
         pits = rules.capture_opposite(lastPit, pits)
 
+    # Total stones left on each side
+    player1StonesLeft = sum(pits[7:13])
+    player2StonesLeft = sum(pits[0:6])
+
+
+    # Winning condition:
+    if player1StonesLeft == 0 or player2StonesLeft == 0:
+        # Moving the final stones
+        pits[0:6] = [0, 0, 0, 0, 0, 0]
+        pits[6] = pits[6] + player2StonesLeft
+        pits[7:13] = [0, 0, 0, 0, 0, 0]
+        pits[13] = pits[13] + player1StonesLeft
+        return pits, 0
+
     if (player == 1 and lastPit == 13) or (player == 2 and lastPit == 6):
         return pits, 1
     return pits, 0
