@@ -18,7 +18,6 @@ def terminal_test(state):
 
 
 def utility(state):
-    #return state.boardState[13] - state.boardState[6]
     return evaluation(state.boardState, 1 if state.MAX else 2)
 
 def max_value(state, d, max_d):

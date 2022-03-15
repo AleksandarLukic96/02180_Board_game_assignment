@@ -40,6 +40,18 @@ def startMenu(player):
         print("Not a valid input!")
         return -1
 
+def get_depth():
+    while True:
+        print("Maximum search depth?")
+        try:
+            d1 = int(input())
+            if d1 < 0:
+                print('Choose positive depth.')
+            else:
+                return d1
+        except:
+            print('Input non-negative integer as depth')
+
 # Asks if players are humans or Ai, and which AI
 startChoice = startMenu(1)
 while startChoice == -1:
@@ -52,14 +64,12 @@ elif startChoice == 2:
     AI1Move = dumbMove
 elif startChoice == 3:
     player1 = 'AI'
-    print("Maximum search depth?")
-    d = int(input())
-    AI1Move = functools.partial(minimaxMove, d)
+    d1 = get_depth()
+    AI1Move = functools.partial(minimaxMove, d1)
 elif startChoice == 4:
     player1 = 'AI'
-    print("Maximum search depth?")
-    d = int(input())
-    AI1Move = functools.partial(alphabetaMove, d)
+    d1 = get_depth()
+    AI1Move = functools.partial(alphabetaMove, d1)
 
 startChoice = startMenu(2)
 while startChoice == -1:
@@ -72,14 +82,12 @@ elif startChoice == 2:
     AI2Move = dumbMove
 elif startChoice == 3:
     player2 = 'AI'
-    print("Maximum search depth?")
-    d = int(input())
-    AI2Move = functools.partial(minimaxMove, d)
+    d2 = get_depth()
+    AI2Move = functools.partial(minimaxMove, d2)
 elif startChoice == 4:
     player2 = 'AI'
-    print("Maximum search depth?")
-    d = int(input())
-    AI2Move = functools.partial(alphabetaMove, d)
+    d2 = get_depth()
+    AI2Move = functools.partial(alphabetaMove, d2)
 
 # Welcome message - initialised message from https://ascii.co.uk/art/mancala
 message = "                                 _       \n                                | |      \n _ __ ___   __ _ _ __   ___ __ _| | __ _ \n| '_ ` _ \ / _` | '_ \ / __/ _` | |/ _` |\n| | | | | | (_| | | | | (_| (_| | | (_| |\n|_| |_| |_|\__,_|_| |_|\___\__,_|_|\__,_|\n"

@@ -25,6 +25,3 @@ def evaluation(pits, player):
                 pit = i + pits[i]
                 player2Steal += 1 + pits[12-pit]
         return -(player2Home + player2Steal + pits[6] - pits[13])
-    #return player1Home + player1Steal + pits[13]  - (5*player2Home + player2Steal + pits[6] + 0.5*sum(pits[0:6]))
-    #return player1Home + player1Steal + pits[13] + 0.1 * sum(pits[7:13]) - 3*(48-sum(pits[7:13]) - sum(pits[0:6]))/48*pits[7:13].count(0) - (player2Home+player2Steal+
-    #             pits[6] + 0.1 * sum(pits[0:6])  - 3*(48-sum(pits[7:13]) - sum(pits[0:6]))/48*pits[0:6].count(0))
