@@ -4,14 +4,6 @@
 # |    |  0 |  1 |  2 |  3 |  4 |  5 |    |
 # o---------------------------------------o
 def evaluation(pits, player):
-    # Check if state is terminal
-    if sum(pits[0:6]) + sum(pits[7:13]) == 0:
-        if pits[13] > pits[6]:
-            return 1000
-        elif pits[13] < pits[6]:
-            return -1000
-        else:
-            return 0
     # Counts number of stones each player can put directly in home pile or steal
     player1Home = 0
     player1Steal = 0
