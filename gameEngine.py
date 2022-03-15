@@ -12,6 +12,7 @@ import drawGame
 from dumbAI import nextMove as dumbMove
 from move import move
 from MINIMAXAI import minimaxMove
+import functools
 
 # Value to keep game going
 playing = True
@@ -50,7 +51,9 @@ elif startChoice == 2:
     AI1Move = dumbMove
 elif startChoice == 3:
     player1 = 'AI'
-    AI1Move = minimaxMove
+    print("Maximum search depth?")
+    d = int(input())
+    AI1Move = functools.partial(minimaxMove, d)
 
 startChoice = startMenu(2)
 while startChoice == -1:
@@ -63,7 +66,9 @@ elif startChoice == 2:
     AI2Move = dumbMove
 elif startChoice == 3:
     player2 = 'AI'
-    AI2Move = minimaxMove
+    print("Maximum search depth?")
+    d = int(input())
+    AI2Move = functools.partial(minimaxMove, d)
 
 # Welcome message - initialised message from https://ascii.co.uk/art/mancala
 message = "                                 _       \n                                | |      \n _ __ ___   __ _ _ __   ___ __ _| | __ _ \n| '_ ` _ \ / _` | '_ \ / __/ _` | |/ _` |\n| | | | | | (_| | | | | (_| (_| | | (_| |\n|_| |_| |_|\__,_|_| |_|\___\__,_|_|\__,_|\n"
