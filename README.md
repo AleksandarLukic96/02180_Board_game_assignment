@@ -20,7 +20,7 @@ Assignment 1 : Board game
 8. The game ends when one of the players empty their side. At this point, the oponent get to claim all remaining stones on their side. The winner is the player with most stones in their mancala. 
 
 ## **How to play Mancala in terminal:** ##
-1. Download the folder from the git-repository: https://github.com/AleksandarLukic96/02180_Board_game_assignment and save it on the computer.
+1. Download the folder from a zip-file or the git-repository: https://github.com/AleksandarLukic96/02180_Board_game_assignment and save it on the computer.
 
 2. Open your choice of terminal, ex. Command Prompt (cmd.exe) and change directory to where you have saved the folder.
 ```
@@ -32,9 +32,10 @@ Assignment 1 : Board game
 > gameEnigine.py
 ```
 
-4. While playing the game board is printed in the terminal showing all the pits and mancalas. Since each player can only pick up stones from their own side, the player can see the letters _a_, _b_, _c_, _d_, _e_ and _f_ either right above or underneath their pits. Player 1 is the upper one and the one who starts. The game is played counter clockwise with player 1's goal to the left and player 2's goal to the right.
-<!-- Screenshot from cmd-prompt-->
-![](https://github.com/AleksandarLukic96/02180_Board_game_assignment/blob/main/Images/MancalaTerminal1.JPG)
+4. When you open start the program, you are met by the chosing player menu. Here you choose for each player whether they are a human player or an AI. If any of the two Minimax-AIs are choosen, the user will be asked to pick a depth. This refers to the depth of the decision tree the AI can look ahead each turn. The higher this value is set, the better the AI will be able to forsee the futre outcome. However, a higher depth comes at the cost of a slower AI. We recommend not putting the depth higher than 8, for the best user experience. 
+
+5. While playing the game board is printed in the terminal showing all the pits and mancalas. Since each player can only pick up stones from their own side, the player can see the letters _a_, _b_, _c_, _d_, _e_ and _f_ either right above or underneath their pits. Player 1 is the upper one and the one who starts. The game is played counter clockwise with player 1's goal to the left and player 2's goal to the right.
+
 ```
          <-----PLAYER 1
         a    b    c    d    e    f
@@ -46,9 +47,9 @@ o---------------------------------------o
         a    b    c    d    e    f
             PLAYER 2 ----->       
 ```
-5. When the player wants to choose a pit, they write in the terminal the coorosponding letter. 
+6. When the player wants to choose a pit, they write in the terminal the coorosponding letter. 
 
-6. If the player writes an invalid input to the terminal, the game will reprompt for a valid input.
+7. If the player writes an invalid input to the terminal, the game will reprompt for a valid input.
 
 ## Links ##
 Inspiration for the GUI:
